@@ -23,3 +23,24 @@ For CUDA on the H100 GPU, we focus on GPU-centric optimizations to improve data 
         Where: Kernel launch configuration.
         How: Stick with 256 threads/block (good for H100), but ensure enough blocks to utilize the GPU’s 141 SMs (Streaming Multiprocessors).
 
+
+
+
+
+
+
+openmp optimizations
+
+
+
+Thread Pinning:
+        Applied: Yes, configured in the PBS job script with export OMP_PROC_BIND=true.
+        Reason: Prevents thread migration across CPU cores, reducing latency and ensuring consistent performance on the H100 cluster’s 30-core CPU node.
+    Cache Blocking:
+        Applied: No.
+        Reason: While cache blocking can improve data locality for dense matrices, it’s less effective for sparse matrices in CSR format due to irregular memory access patterns. Non-zero elements are scattered, making it hard to predict which rows will benefit from blocking. For simplicity and given the small matrix size (1000x1000), this optimization was skipped. It could be explored for larger matrices or different sparse formats.
+    Vectorization:
+        Applied: No.
+        Reason: Vectorization (e.g., using #pragma omp simd) is less effective for sparse matrices in CSR format because of irregular memory accesses. The non-zero elements’ indices (col_idx) cause non-contiguous memory reads, which hinder SIMD vectorization. Modern compilers might auto-vectorize where possible, but explicit vectorization wasn’t added here.
+
+Summary: The OpenMP version was optimized with loop unrolling, dynamic scheduling, and thread pinning, which are effective for CPU parallelism in this context. Cache blocking and vectorization were omitted due to their limited impact on sparse matrices in CSR format with the given matrix size.
