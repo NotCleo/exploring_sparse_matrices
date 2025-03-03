@@ -1,0 +1,7 @@
+Sequential CPU Time: 0.000050 seconds
+CUDA Kernel Time: 0.000030 seconds
+Total CUDA Time (including transfers): 0.002811 seconds
+Speedup (Kernel vs Sequential): 1.65x
+Speedup (Total vs Sequential): 0.02x
+Non-zero Elements: 9994 (1.00% sparsity)
+Grid Size: 32 blocks, Block Size: 256 threads
