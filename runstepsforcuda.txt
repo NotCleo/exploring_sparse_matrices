@@ -1,0 +1,20 @@
+ssh username@hostname
+
+mkdir SparseMatrixCUDAOpt
+cd SparseMatrixCUDAOpt
+
+nano spmv_cuda_opt.cu
+//Paste the optimized CUDA code, (Ctrl+O, ->),  exit (Ctrl+X)
+
+nano run.sh
+
+chmod +x run.sh
+
+qsub run.sh
+
+cat SparseMatrixCUDAOpt.o12345
+
+
+
+
+
