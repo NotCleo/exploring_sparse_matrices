@@ -1,0 +1,2 @@
+#pragma omp parallel for private(i, j) schedule(dynamic)
+for (i = 0; i < ROWS; i++) { ... }
