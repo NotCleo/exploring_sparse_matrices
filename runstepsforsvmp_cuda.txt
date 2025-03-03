@@ -1,0 +1,55 @@
+ssh username@hostname
+
+mkdir SparseMatrixCUDAOpt
+cd SparseMatrixCUDAOpt
+
+nano spmv_cuda_opt.cu
+//Paste the optimized CUDA code, (Ctrl+O, ->),  exit (Ctrl+X)
+
+nano run.sh
+
+chmod +x run.sh
+
+qsub run.sh
+
+cat SparseMatrixCUDAOpt.o12345
+
+
+
+
+
+
+ssh username@hostname
+
+mkdir SparseMatrixOpt
+cd SparseMatrixOpt
+
+nano spmv_opt.c
+
+(code)
+
+Paste the code above, save (Ctrl+O, Enter), and exit (Ctrl+X).
+
+nano run.sh
+
+#!/bin/bash
+#PBS -l nodes=1:ppn=30   # Match multiprocessor count from nvidia-smi
+#PBS -l walltime=00:10:00 # Max runtime of 10 minutes
+#PBS -N SparseMatrixOpt  # Job name
+
+
+cd $PBS_O_WORKDIR
+export OMP_NUM_THREADS=30 # Match ppn
+export OMP_PROC_BIND=true # Thread pinning
+./spmv_opt
+
+chmod +x run.sh
+
+qsub run.sh
+
+cat SparseMatrixOpt.o12345
+
+
+
+
+
