@@ -1,0 +1,12 @@
+//extern __shared__ double shared_x[];
+//for (int i = tid; i < COLS; i += blockDim.x) {
+//    shared_x[i] = x[i];
+//}
+//__syncthreads();
+
+
+//int row = blockIdx.x * (blockDim.x / THREADS_PER_ROW) + (threadIdx.x / THREADS_PER_ROW);
+//int lane = threadIdx.x % THREADS_PER_ROW;
+//for (int j = start + lane; j < end; j += THREADS_PER_ROW) {
+//    sum += val[j] * shared_x[col_idx[j]];
+//}
