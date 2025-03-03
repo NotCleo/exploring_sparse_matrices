@@ -7,3 +7,8 @@ for (j = row_ptr[i]; j < row_ptr[i + 1] - 3; j += 4) {
 for (; j < row_ptr[i + 1]; j++) {
     y_par[i] += val[j] * x[col_idx[j]];
 }
+
+
+
+//in the inner loop of the parallel SpMV computation. The loop over non-zero elements was unrolled by a factor of 4 to reduce overhead and improve instruction-level parallelism.
+//Reason: Reduces loop overhead and allows the CPU to execute multiple operations in a single cycle, improving performance.
