@@ -1,0 +1,9 @@
+for (j = row_ptr[i]; j < row_ptr[i + 1] - 3; j += 4) {
+    y_par[i] += val[j] * x[col_idx[j]] +
+                val[j + 1] * x[col_idx[j + 1]] +
+                val[j + 2] * x[col_idx[j + 2]] +
+                val[j + 3] * x[col_idx[j + 3]];
+}
+for (; j < row_ptr[i + 1]; j++) {
+    y_par[i] += val[j] * x[col_idx[j]];
+}
