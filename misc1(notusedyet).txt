@@ -1,0 +1,25 @@
+GPU-Specific Optimizations for CUDA SpMV
+
+For CUDA on the H100 GPU, we focus on GPU-centric optimizations to improve data locality, reduce memory access overhead, and maximize parallelism. Here are the key techniques:
+
+    Shared Memory Usage:
+        Why: GPUs have fast shared memory (per block) that’s much quicker than global memory. We can load portions of the input vector x into shared memory to reduce global memory accesses.
+        Where: Inside the CUDA kernel, for accessing x.
+        How: Each block loads a subset of x into shared memory, synchronized with __syncthreads().
+    Memory Coalescing:
+        Why: Ensures threads in a warp (32 threads) access contiguous memory, maximizing memory bandwidth.
+        Where: Accesses to val, col_idx, and x in the kernel.
+        How: In CSR, val and col_idx accesses are already coalesced (sequential within a row), but x[col_idx[j]] is irregular. We mitigate this by using shared memory for x.
+    Warp-Level Parallelism:
+        Why: Warps (32 threads) are the basic execution unit on NVIDIA GPUs. We can assign multiple threads per row to handle rows with many non-zeros.
+        Where: Kernel computation.
+        How: Use multiple threads per row, dividing the non-zeros among them.
+    Minimizing Data Transfers:
+        Why: Host-to-device and device-to-host transfers are slow.
+        Where: Before and after kernel execution.
+        How: Already minimized in the previous code, but we’ll ensure no unnecessary transfers.
+    Thread Block Tuning:
+        Why: Optimal block size maximizes occupancy on the GPU.
+        Where: Kernel launch configuration.
+        How: Stick with 256 threads/block (good for H100), but ensure enough blocks to utilize the GPU’s 141 SMs (Streaming Multiprocessors).
+
