@@ -1,2 +1,6 @@
 #pragma omp parallel for private(i, j) schedule(dynamic)
 for (i = 0; i < ROWS; i++) { ... }
+
+
+//added to the OpenMP directive with schedule(dynamic).
+//Reason: Sparse matrices have uneven non-zero distributions per row, so dynamic scheduling balances workload across threads, preventing some threads from finishing early while others are still processing dense rows.
