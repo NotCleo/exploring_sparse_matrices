@@ -5,3 +5,43 @@ Speedup (Kernel vs Sequential): 1.65x
 Speedup (Total vs Sequential): 0.02x
 Non-zero Elements: 9994 (1.00% sparsity)
 Grid Size: 32 blocks, Block Size: 256 threads
+
+
+Sequential SpMV Time: 0.000052 seconds
+Parallel SpMV Time: 0.004551 seconds
+Number of Threads: 30
+Speedup: 0.01x
+Efficiency: 0.04%
+Non-zero Elements: 9994 (1.00% sparsity)
+
+//needs improvement
+
+The parallel OpenMP implementation takes 4.551 milliseconds, which is much slower than the sequential version.
+This is unexpected, as parallelization should reduce the time compared to sequential execution.
+
+Speedup is calculated as Sequential Time / Parallel Time = 0.000052 / 0.004551 ≈ 0.0114, or 0.01x.
+A speedup of 0.01x means the parallel version is 100x slower than the sequential version (1/0.01 = 100), indicating a severe performance degradation.
+
+Efficiency is calculated as Speedup / Number of Threads = 0.0114 / 30 ≈ 0.00038, or 0.04%.
+This extremely low efficiency suggests that the parallelization overhead far outweighs any benefits, and the threads are not being utilized effectively.
+
+Possible reasons Why Is the Parallel Version Slower?
+
+The parallel OpenMP version is 100x slower than the sequential version, which is unusual and indicates a problem. Here are the likely causes:
+
+    Thread Creation Overhead:
+        For a small matrix (1000x1000 with ~10,000 non-zeros), the workload per row is tiny (on average, 10 non-zeros per row). Creating and managing 30 threads introduces significant overhead (e.g., thread spawning, synchronization), which outweighs the computation time.
+        The sequential version avoids this overhead, making it faster for small workloads.
+    Load Imbalance:
+        Sparse matrices have uneven non-zero distributions. Some rows may have more non-zeros than others, causing threads to finish at different times. Although the code uses schedule(dynamic) to mitigate this, the small workload per row may still lead to imbalance or scheduling overhead.
+    False Sharing:
+        The output vector y_par is updated by multiple threads. If consecutive elements of y_par reside in the same cache line, threads may cause cache invalidation (false sharing), leading to performance degradation.
+        In this code, each thread writes to a unique index y_par[i], so false sharing is unlikely, but it’s worth considering for larger matrices.
+    Environment or Configuration Issues:
+        The environment variables OMP_NUM_THREADS=30 and OMP_PROC_BIND=true are set, but there might be contention or misconfiguration on the cluster (e.g., CPU affinity issues, oversubscription, or competing processes).
+        The cluster node might have other workloads running, causing contention for CPU resources.
+    Measurement Overhead:
+        The timing measurement using omp_get_wtime() before and after the parallel region may include thread setup time, which is significant for small workloads
+
+
+perhaps increase dimensionality and sparsity
