@@ -5,3 +5,11 @@
 
 cd $PBS_O_WORKDIR
 ./spmv_cuda_opt
+
+
+//(or) add on the below
+
+//cd $PBS_O_WORKDIR
+//export OMP_NUM_THREADS=30 # Match ppn
+//export OMP_PROC_BIND=true # Thread pinning
+//./spmv_opt
