@@ -44,4 +44,5 @@ The parallel OpenMP version is 100x slower than the sequential version, which is
         The timing measurement using omp_get_wtime() before and after the parallel region may include thread setup time, which is significant for small workloads
 
 
-perhaps increase dimensionality and sparsity
+perhaps increase dimensionality and sparsity and watch out for Speedup change
+
