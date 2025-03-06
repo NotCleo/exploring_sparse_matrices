@@ -4,6 +4,10 @@
 
 #define ROWS 1000    // Matrix rows
 #define COLS 1000    // Matrix columns
+
+//Increase it to 10000 (RC) and sparsity to 0.99 and notice the speedup
+
+
 #define SPARSITY 0.01 // 1% non-zero elements
 #define THREADS_PER_BLOCK 256
 #define THREADS_PER_ROW 8 // Number of threads per row for warp-level parallelism
