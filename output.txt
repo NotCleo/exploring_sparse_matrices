@@ -6,6 +6,16 @@ Speedup (Total vs Sequential): 0.02x
 Non-zero Elements: 9994 (1.00% sparsity)
 Grid Size: 32 blocks, Block Size: 256 threads
 
+Sequential CPU Time: 0.385599 seconds
+CUDA Kernel Time: 0.000058 seconds
+Total CUDA Time (including transfers): 0.190071 seconds
+Speedup (Kernel vs Sequential): 6639.10x
+Speedup (Total vs Sequential): 2.03x
+Non-zero Elements: 99001676 (99.00% sparsity)
+Grid Size: 313 blocks, Block Size: 256 threads
+
+
+//Compare the two blocks
 
 Sequential SpMV Time: 0.000052 seconds
 Parallel SpMV Time: 0.004551 seconds
@@ -13,6 +23,8 @@ Number of Threads: 30
 Speedup: 0.01x
 Efficiency: 0.04%
 Non-zero Elements: 9994 (1.00% sparsity)
+
+
 
 //needs improvement
 
@@ -44,5 +56,5 @@ The parallel OpenMP version is 100x slower than the sequential version, which is
         The timing measurement using omp_get_wtime() before and after the parallel region may include thread setup time, which is significant for small workloads
 
 
-perhaps increase dimensionality and sparsity and watch out for Speedup change
+perhaps increase dimensionality and sparsity and watch out for Speedup change (look back up)
 
