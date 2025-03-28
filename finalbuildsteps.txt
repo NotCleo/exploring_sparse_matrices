@@ -1,0 +1,10 @@
+gcc -fopenmp -O3 -o spmv_cpu spmv_cpu.c
+
+nvcc -O3 -o spmv_gpu spmv_gpu.cu -Xcompiler -fopenmp
+
+
+./spmv_cpu > cpu_output.txt
+./spmv_gpu > gpu_output.txt
+
+
+//Then you can cat into these files for the benchmarking parameters (well some of them)
