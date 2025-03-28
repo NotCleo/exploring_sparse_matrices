@@ -8,3 +8,32 @@ nvcc -O3 -o spmv_gpu spmv_gpu.cu -Xcompiler -fopenmp
 
 
 //Then you can cat into these files for the benchmarking parameters (well some of them)
+
+
+Here's what you should be getting (for our hardcoded conditions)
+
+GPU parallelism V/s CPU parallelism
+
+
+GPU output :
+
+
+      Warning: Exceeded MAX_NNZ, truncating at 31250
+      Sequential CPU Time: 0.000169 seconds                        v/s          Sequential CPU Time: 0.000505 seconds
+      CUDA Kernel Time: 0.000002 seconds
+      Total CUDA Time (including transfers): 0.000416 seconds
+      Speedup (Kernel vs Sequential): 83.69x
+      Speedup (Total vs Sequential): 0.41x
+      Non-zero Elements: 31250 (0.0002% sparsity)
+      Grid Size: 489 blocks, Block Size: 256 threads
+
+
+
+
+CPU output : 
+      
+      Warning: Exceeded MAX_NNZ, truncating at 31250
+      Parallel CPU Time: 0.012822 seconds
+      Speedup (Parallel vs Sequential): 0.04x
+      Number of Threads: 96
+      Non-zero Elements: 31250 (0.0002% sparsity)
